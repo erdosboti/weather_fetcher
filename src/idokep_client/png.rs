@@ -53,8 +53,8 @@ pub struct Color {
 }
 
 impl Color {
-    fn is_non_white(&self) -> bool {
-        self.red != 255 && self.green != 255 && self.blue != 255
+    fn is_white(&self) -> bool {
+        self.red == 255 && self.green == 255 && self.blue == 255
     }
 }
 
@@ -240,45 +240,45 @@ impl Png {
         parser.parse_png()
     }
 
-    fn get_column(&self, n: usize) -> Vec<Color> {
-        let mut col = Vec::new();
-        for row in self.pixels.iter() {
-            col.push(row[n])
+    fn col(&self, n: usize) -> Vec<Color> {
+        let mut col_pixels: Vec<Color> = Vec::new();
+        for row in &self.pixels {
+            col_pixels.push(row[n]);
         }
-        col
+        col_pixels
+    }
+
+    fn row(&self, n: usize) -> &[Color] {
+        &self.pixels[n][..]
     }
 
     pub fn width(&self) -> usize {
         self.pixels[0].len()
     }
 
-    // pub fn height(&self) -> usize {
-    // self.pixels.len()
-    // }
+    pub fn height(&self) -> usize {
+        self.pixels.len()
+    }
 
     pub fn remove_white_lines(&mut self) {
-        self.pixels
-            .retain(|row| row.iter().any(|pixel| pixel.is_non_white()));
-        let mut cols_with_content: Vec<usize> = Vec::new();
-        for (col, _pixel) in self.pixels[0].iter().enumerate() {
-            let col_has_non_white = self
-                .get_column(col)
-                .iter()
-                .any(|pixel| pixel.is_non_white());
-            if col_has_non_white {
-                cols_with_content.push(col);
+        let mut r = 0;
+        while r < self.height() {
+            if self.row(r).iter().all(|pixel| pixel.is_white()) {
+                self.pixels.remove(r);
+            } else {
+                r += 1;
             }
         }
-        let mut new_pixels: Vec<Vec<Color>> = Vec::new();
-        for row in &self.pixels {
-            new_pixels.push(
-                row.iter()
-                    .enumerate()
-                    .filter(|&(col, _)| cols_with_content.iter().any(|&c| c == col))
-                    .map(|(_, &e)| e)
-                    .collect(),
-            );
+
+        let mut c = 0;
+        while c < self.width() {
+            if self.col(c).iter().all(|pixel| pixel.is_white()) {
+                for row in self.pixels.iter_mut() {
+                    row.remove(c);
+                }
+            } else {
+                c += 1;
+            }
         }
-        self.pixels = new_pixels
     }
 }

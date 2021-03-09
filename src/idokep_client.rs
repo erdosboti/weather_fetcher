@@ -11,10 +11,10 @@ use crate::WeatherData;
 use number_recognition::NumberRecognition;
 use png::Png;
 
-static AUTOMATA_URL: &'static str = "https://www.idokep.hu/automata/globallhotel";
-static TEMPERATURE_IMAGE_REGEXP: &'static str = r#"<th class="">Hőmérséklet</th>\s+<td><img alt="Embedded Image" src="data:image/png;base64,(.+)"> °C</td>"#;
+const AUTOMATA_URL: &str = "https://www.idokep.hu/automata/globallhotel";
+const TEMPERATURE_IMAGE_REGEXP: &str = r#"<th class="">Hőmérséklet</th>\s+<td><img alt="Embedded Image" src="data:image/png;base64,(.+)"> °C</td>"#;
 // TODO: change this to the correct url
-static PRECIPITATION_IMAGE_REGEXP: &'static str = r#"<th>Harmatpont</th>\s+<td><img alt="Embedded Image" src="data:image/png;base64,(.+)"> °C</td>"#;
+const PRECIPITATION_IMAGE_REGEXP: &str = r#"<th>Harmatpont</th>\s+<td><img alt="Embedded Image" src="data:image/png;base64,(.+)"> °C</td>"#;
 
 pub struct IdokepClient<'a> {
     automata_url: &'a str,
