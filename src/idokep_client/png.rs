@@ -252,9 +252,9 @@ impl Png {
         self.pixels[0].len()
     }
 
-    pub fn height(&self) -> usize {
-        self.pixels.len()
-    }
+    // pub fn height(&self) -> usize {
+    // self.pixels.len()
+    // }
 
     pub fn remove_white_lines(&mut self) {
         self.pixels
