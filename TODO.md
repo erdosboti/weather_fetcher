@@ -1,0 +1,11 @@
+- [ ] fix namespacing
+- [ ] fix error handling
+- [ ] check if static image inclusion can work
+- [ ] change regexp to correct ones
+- [ ] implement climacell client
+- [ ] add secrets
+- [ ] add db connection (sqlite)
+- [ ] provision the raspberry for deployment and also to use a systemd timer to run this thing
+- [ ] santiy checking
+- [ ] think about how to notify when idokep is down, etc
+- [ ] add tests
