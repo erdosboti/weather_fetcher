@@ -1,7 +1,7 @@
 - [ ] fix namespacing
 - [ ] fix error handling
 - [ ] check if static image inclusion can work
-- [ ] change regexp to correct ones
+- [x] change regexp to correct ones
 - [ ] implement climacell client
 - [ ] add secrets
 - [ ] add db connection (sqlite)

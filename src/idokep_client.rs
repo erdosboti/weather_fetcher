@@ -13,8 +13,8 @@ use png::Png;
 
 const AUTOMATA_URL: &str = "https://www.idokep.hu/automata/globallhotel";
 const TEMPERATURE_IMAGE_REGEXP: &str = r#"<th class="">Hőmérséklet</th>\s+<td><img alt="Embedded Image" src="data:image/png;base64,(.+)"> °C</td>"#;
-// TODO: change this to the correct url
-const PRECIPITATION_IMAGE_REGEXP: &str = r#"<th>Harmatpont</th>\s+<td><img alt="Embedded Image" src="data:image/png;base64,(.+)"> °C</td>"#;
+const PRECIPITATION_IMAGE_REGEXP: &str = r#"<th>Csapadékintenzitás</th>\s+<td><img alt="Embedded Image" src="data:image/png;base64,(.+)"> mm/h</td>"#;
+const PRECIPITATION_24_IMAGE_REGEXP: &str = r#"<th>24 órás csapadék</th>\s+<td><img alt="Embedded Image" src="data:image/png;base64,(.+)"> mm/24h</td>"#;
 
 pub struct IdokepClient<'a> {
     automata_url: &'a str,
@@ -41,7 +41,7 @@ impl<'a> IdokepClient<'a> {
         let decoded_image = match data_type {
             "temperature" => self.get_decoded_image(TEMPERATURE_IMAGE_REGEXP),
             "precipitation" => self.get_decoded_image(PRECIPITATION_IMAGE_REGEXP),
-            "precipitation_24h" => Ok(Vec::new()),
+            "precipitation_24h" => self.get_decoded_image(PRECIPITATION_24_IMAGE_REGEXP),
             _ => Ok(Vec::new()),
         };
         if let Ok(decoded_image) = decoded_image {
@@ -68,7 +68,7 @@ impl<'a> WeatherClient for IdokepClient<'a> {
         WeatherData {
             temperature: self.extract_data("temperature").unwrap_or(0.0),
             precipitation: self.extract_data("precipitation").unwrap_or(0.0),
-            precipitation_24h: 0.0, // self.extract_precipitation_24h(),
+            precipitation_24h: self.extract_data("precipitation_24h").unwrap_or(0.0),
         }
     }
 }
