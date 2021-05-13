@@ -89,10 +89,10 @@ impl Parser {
         }
     }
 
-    fn from_bytes(bytes: Vec<u8>) -> Self {
+    fn from_bytes(bytes: &[u8]) -> Self {
         Self {
             reader: bit_utils::ByteReader {
-                content: bytes,
+                content: bytes.to_vec(),
                 cursor_pos: 0,
             },
             image_header: None,
@@ -230,12 +230,13 @@ fn byte_num_from_pixel_width(width: u32) -> usize {
 }
 
 impl Png {
+    #![allow(dead_code)]
     pub fn new(file: &str) -> Self {
         let mut parser = Parser::new(file);
         parser.parse_png()
     }
 
-    pub fn from_bytes(bytes: Vec<u8>) -> Self {
+    pub fn from_bytes(bytes: &[u8]) -> Self {
         let mut parser = Parser::from_bytes(bytes);
         parser.parse_png()
     }

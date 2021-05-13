@@ -1,6 +1,6 @@
 - [ ] fix namespacing
 - [ ] fix error handling
-- [ ] check if static image inclusion can work
+- [x] check if static image inclusion can work
 - [x] change regexp to correct ones
 - [ ] implement climacell client
 - [ ] add secrets

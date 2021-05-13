@@ -45,7 +45,7 @@ impl<'a> IdokepClient<'a> {
             _ => Ok(Vec::new()),
         };
         if let Ok(decoded_image) = decoded_image {
-            NumberRecognition::extract_number(Png::from_bytes(decoded_image))
+            NumberRecognition::extract_number(Png::from_bytes(&decoded_image))
         } else {
             Err("image couldn't be extracted")?
         }

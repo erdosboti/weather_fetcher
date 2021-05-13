@@ -1,6 +1,19 @@
 use super::png::{Color, Png};
 use std::error;
 
+const CHAR_0: &[u8] = include_bytes!("char_images/0.png");
+const CHAR_1: &[u8] = include_bytes!("char_images/1.png");
+const CHAR_2: &[u8] = include_bytes!("char_images/2.png");
+const CHAR_3: &[u8] = include_bytes!("char_images/3.png");
+const CHAR_4: &[u8] = include_bytes!("char_images/4.png");
+const CHAR_5: &[u8] = include_bytes!("char_images/5.png");
+const CHAR_6: &[u8] = include_bytes!("char_images/6.png");
+const CHAR_7: &[u8] = include_bytes!("char_images/7.png");
+const CHAR_8: &[u8] = include_bytes!("char_images/8.png");
+const CHAR_9: &[u8] = include_bytes!("char_images/9.png");
+const CHAR_MINUS: &[u8] = include_bytes!("char_images/minus.png");
+const CHAR_POINT: &[u8] = include_bytes!("char_images/point.png");
+
 pub struct NumberRecognition;
 
 impl NumberRecognition {
@@ -26,7 +39,7 @@ fn get_char(starting_pos: usize, image: &Png) -> (char, usize) {
     let chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '-'];
     let mut results = std::collections::HashMap::new();
     for &c in chars.iter() {
-        let char_png: Png = Png::new(&char_file_name(c));
+        let char_png: Png = Png::from_bytes(char_image(c));
         if char_png.width() > image.width() - starting_pos {
             continue;
         }
@@ -41,17 +54,26 @@ fn get_char(starting_pos: usize, image: &Png) -> (char, usize) {
     let &result_char = results.iter().min_by(|a, b| a.1.cmp(b.1)).unwrap().0;
     (
         result_char,
-        starting_pos + Png::new(&char_file_name(result_char)).width(),
+        starting_pos + Png::from_bytes(char_image(result_char)).width(),
     )
 }
 
-fn char_file_name(c: char) -> String {
-    let file_name = match c {
-        '.' => "point".to_owned(),
-        '-' => "minus".to_owned(),
-        _ => c.to_string().to_owned(),
-    };
-    format!("src/idokep_client/char_images/{}.png", file_name)
+fn char_image(c: char) -> &'static [u8] {
+    match c {
+        '0' => CHAR_0,
+        '1' => CHAR_1,
+        '2' => CHAR_2,
+        '3' => CHAR_3,
+        '4' => CHAR_4,
+        '5' => CHAR_5,
+        '6' => CHAR_6,
+        '7' => CHAR_7,
+        '8' => CHAR_8,
+        '9' => CHAR_9,
+        '-' => CHAR_MINUS,
+        '.' => CHAR_POINT,
+        _ => panic!("Unhandled character"),
+    }
 }
 
 fn pixel_diff(pixel1: &Color, pixel2: &Color) -> u32 {
