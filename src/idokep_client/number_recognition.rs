@@ -1,19 +1,6 @@
 use super::png::{Color, Png};
 use std::error;
 
-const CHAR_0: &[u8] = include_bytes!("char_images/0.png");
-const CHAR_1: &[u8] = include_bytes!("char_images/1.png");
-const CHAR_2: &[u8] = include_bytes!("char_images/2.png");
-const CHAR_3: &[u8] = include_bytes!("char_images/3.png");
-const CHAR_4: &[u8] = include_bytes!("char_images/4.png");
-const CHAR_5: &[u8] = include_bytes!("char_images/5.png");
-const CHAR_6: &[u8] = include_bytes!("char_images/6.png");
-const CHAR_7: &[u8] = include_bytes!("char_images/7.png");
-const CHAR_8: &[u8] = include_bytes!("char_images/8.png");
-const CHAR_9: &[u8] = include_bytes!("char_images/9.png");
-const CHAR_MINUS: &[u8] = include_bytes!("char_images/minus.png");
-const CHAR_POINT: &[u8] = include_bytes!("char_images/point.png");
-
 pub struct NumberRecognition;
 
 impl NumberRecognition {
@@ -60,18 +47,18 @@ fn get_char(starting_pos: usize, image: &Png) -> (char, usize) {
 
 fn char_image(c: char) -> &'static [u8] {
     match c {
-        '0' => CHAR_0,
-        '1' => CHAR_1,
-        '2' => CHAR_2,
-        '3' => CHAR_3,
-        '4' => CHAR_4,
-        '5' => CHAR_5,
-        '6' => CHAR_6,
-        '7' => CHAR_7,
-        '8' => CHAR_8,
-        '9' => CHAR_9,
-        '-' => CHAR_MINUS,
-        '.' => CHAR_POINT,
+        '0' => include_bytes!("char_images/0.png"),
+        '1' => include_bytes!("char_images/1.png"),
+        '2' => include_bytes!("char_images/2.png"),
+        '3' => include_bytes!("char_images/3.png"),
+        '4' => include_bytes!("char_images/4.png"),
+        '5' => include_bytes!("char_images/5.png"),
+        '6' => include_bytes!("char_images/6.png"),
+        '7' => include_bytes!("char_images/7.png"),
+        '8' => include_bytes!("char_images/8.png"),
+        '9' => include_bytes!("char_images/9.png"),
+        '-' => include_bytes!("char_images/minus.png"),
+        '.' => include_bytes!("char_images/point.png"),
         _ => panic!("Unhandled character"),
     }
 }
