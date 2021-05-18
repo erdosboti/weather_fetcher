@@ -12,3 +12,5 @@ colored = "2"
 ureq = "2.0.2"
 regex = "1.4.3"
 base64 = "0.13.0"
+rusqlite = { version = "0.25.3", features = ["chrono"] }
+chrono = "0.4"
